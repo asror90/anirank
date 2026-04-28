@@ -3,325 +3,459 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AniRank – Honest Anime Reviews & Rankings</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<title>AniRank – The Realest Anime Reviews</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0a0f;
-    --surface: #12121a;
-    --surface2: #1a1a26;
-    --border: rgba(255,255,255,0.08);
-    --purple: #7c5cfc;
-    --purple-light: #a78bfa;
-    --text: #f0eeff;
-    --muted: #8880aa;
-    --accent: #ff6b6b;
+    --bg: #080810;
+    --surface: #0f0f1a;
+    --surface2: #16162a;
+    --border: rgba(255,255,255,0.07);
+    --red: #e63946;
+    --red-dim: rgba(230,57,70,0.15);
+    --gold: #f4a261;
+    --text: #eeeeff;
+    --muted: #7a7a9a;
+    --white: #ffffff;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Barlow', sans-serif;
     font-size: 16px;
     line-height: 1.6;
-    min-height: 100vh;
+    overflow-x: hidden;
   }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 3px; }
 
   /* NAV */
   nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 5%;
+    padding: 0 5%;
+    height: 64px;
     border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
-    background: rgba(10,10,15,0.92);
-    backdrop-filter: blur(12px);
-    z-index: 100;
+    background: rgba(8,8,16,0.95);
+    backdrop-filter: blur(16px);
+    z-index: 200;
   }
-  .logo {
+  .logo-wrap { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: var(--red);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    letter-spacing: 2px;
+    font-size: 20px;
+    color: #fff;
+    letter-spacing: 1px;
+    box-shadow: 0 0 16px rgba(230,57,70,0.5);
+  }
+  .logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 3px;
     color: var(--text);
   }
-  .logo span { color: var(--purple); }
+  .logo-text span { color: var(--red); }
   .nav-links { display: flex; gap: 28px; }
-  .nav-links a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 14px;
-    transition: color 0.2s;
-  }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; letter-spacing: 0.5px; }
   .nav-links a:hover { color: var(--text); }
-  .nav-cta {
-    background: var(--purple);
-    color: #fff;
-    padding: 8px 18px;
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .search-bar {
+    background: var(--surface2);
+    border: 1px solid var(--border);
     border-radius: 6px;
-    font-size: 14px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: opacity 0.2s;
+    padding: 7px 14px;
+    font-size: 13px;
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    width: 180px;
+    outline: none;
+    transition: border-color 0.2s;
   }
-  .nav-cta:hover { opacity: 0.85; }
+  .search-bar::placeholder { color: var(--muted); }
+  .search-bar:focus { border-color: var(--red); }
 
   /* HERO */
   .hero {
-    padding: 80px 5% 60px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    align-items: center;
-    max-width: 1100px;
-    margin: 0 auto;
+    position: relative;
+    padding: 90px 5% 80px;
+    overflow: hidden;
   }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(230,57,70,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(244,162,97,0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-content { position: relative; max-width: 700px; }
   .hero-tag {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     font-size: 12px;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--purple-light);
-    border: 1px solid var(--purple);
-    padding: 4px 12px;
-    border-radius: 20px;
-    margin-bottom: 20px;
+    color: var(--red);
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 24px; height: 2px;
+    background: var(--red);
+    display: inline-block;
   }
   .hero h1 {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 72px;
-    line-height: 1;
+    font-size: clamp(56px, 8vw, 96px);
+    line-height: 0.95;
     letter-spacing: 2px;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
   }
-  .hero h1 span { color: var(--purple); }
-  .hero p { color: var(--muted); font-size: 17px; margin-bottom: 28px; max-width: 440px; }
-  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
-  .btn-primary {
-    background: var(--purple);
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: opacity 0.2s;
-  }
-  .btn-primary:hover { opacity: 0.85; }
-  .btn-secondary {
-    background: transparent;
-    color: var(--text);
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 15px;
-    border: 1px solid var(--border);
-    text-decoration: none;
-    transition: border-color 0.2s;
-  }
-  .btn-secondary:hover { border-color: var(--purple); }
-
-  /* FEATURED CARD */
-  .featured-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 28px;
-    position: relative;
-    overflow: hidden;
-  }
-  .featured-card::before {
-    content: '';
-    position: absolute;
-    top: -60px; right: -60px;
-    width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(124,92,252,0.15) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .featured-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--purple-light);
-    margin-bottom: 12px;
-  }
-  .featured-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 36px;
-    letter-spacing: 1px;
-    margin-bottom: 4px;
-  }
-  .featured-genre {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 16px;
-  }
-  .score-display {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-    margin-bottom: 16px;
-  }
-  .score-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 64px;
-    color: var(--purple);
-    line-height: 1;
-  }
-  .score-max { font-size: 22px; color: var(--muted); }
-  .featured-review { font-size: 14px; color: var(--muted); line-height: 1.7; }
+  .hero h1 em { color: var(--red); font-style: normal; }
+  .hero p { font-size: 18px; color: var(--muted); max-width: 500px; margin-bottom: 36px; }
+  .hero-stats { display: flex; gap: 40px; }
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--text); line-height: 1; }
+  .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
 
   /* SECTION */
-  section { max-width: 1100px; margin: 0 auto; padding: 60px 5%; }
-  .section-header {
+  .section { max-width: 1200px; margin: 0 auto; padding: 70px 5%; }
+  .section-head {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
-    margin-bottom: 28px;
+    margin-bottom: 32px;
   }
+  .section-title-wrap { display: flex; align-items: center; gap: 14px; }
+  .section-line { width: 4px; height: 28px; background: var(--red); border-radius: 2px; }
   .section-title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 36px;
-    letter-spacing: 1px;
+    font-size: 32px;
+    letter-spacing: 2px;
   }
-  .section-link { font-size: 14px; color: var(--purple-light); text-decoration: none; }
-  .section-link:hover { text-decoration: underline; }
+  .see-all { font-size: 13px; color: var(--red); text-decoration: none; font-weight: 600; letter-spacing: 0.5px; }
+  .see-all:hover { text-decoration: underline; }
 
-  /* REVIEW CARDS */
-  .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 16px;
+  /* FILTER TABS */
+  .filter-tabs { display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; }
+  .filter-tab {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 500;
+    transition: all 0.2s;
   }
-  .review-card {
+  .filter-tab:hover, .filter-tab.active {
+    background: var(--red);
+    border-color: var(--red);
+    color: #fff;
+  }
+
+  /* ANIME GRID */
+  .anime-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  .anime-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 20px;
-    transition: border-color 0.2s, transform 0.2s;
+    overflow: hidden;
     cursor: pointer;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    position: relative;
   }
-  .review-card:hover {
-    border-color: var(--purple);
-    transform: translateY(-2px);
+  .anime-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--red);
+    box-shadow: 0 16px 40px rgba(230,57,70,0.15);
   }
-  .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-  .card-title { font-size: 16px; font-weight: 500; }
-  .card-genre { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .card-img-wrap { position: relative; aspect-ratio: 2/3; overflow: hidden; }
+  .card-img-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s;
+  }
+  .anime-card:hover .card-img-wrap img { transform: scale(1.05); }
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(8,8,16,0.95) 0%, rgba(8,8,16,0.3) 50%, transparent 100%);
+  }
   .card-score {
-    background: rgba(124,92,252,0.15);
-    color: var(--purple-light);
-    font-size: 14px;
-    font-weight: 500;
-    padding: 4px 10px;
+    position: absolute;
+    top: 10px; right: 10px;
+    background: var(--red);
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    padding: 2px 8px;
     border-radius: 6px;
-    white-space: nowrap;
+    letter-spacing: 1px;
   }
-  .card-stars { color: #f59e0b; font-size: 13px; margin-bottom: 8px; }
-  .card-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .card-rank {
+    position: absolute;
+    top: 10px; left: 10px;
+    background: rgba(8,8,16,0.8);
+    border: 1px solid var(--border);
+    color: var(--gold);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    letter-spacing: 1px;
+  }
+  .card-body { padding: 14px; }
+  .card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 4px; line-height: 1.2; }
+  .card-meta { font-size: 12px; color: var(--muted); }
+  .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--surface2);
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
 
-  /* RANKINGS */
-  .rank-table { width: 100%; }
-  .rank-row {
+  /* TOP 10 LIST */
+  .top-list { display: flex; flex-direction: column; gap: 0; }
+  .top-row {
     display: flex;
     align-items: center;
     gap: 20px;
-    padding: 16px 0;
+    padding: 18px 0;
     border-bottom: 1px solid var(--border);
+    cursor: pointer;
     transition: background 0.15s;
+    border-radius: 4px;
+    padding-left: 8px;
   }
-  .rank-row:hover { background: rgba(124,92,252,0.04); }
-  .rank-num {
+  .top-row:hover { background: rgba(230,57,70,0.05); }
+  .top-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    min-width: 44px;
+    text-align: center;
+    line-height: 1;
+  }
+  .top-num.n1 { color: #FFD700; }
+  .top-num.n2 { color: #C0C0C0; }
+  .top-num.n3 { color: #CD7F32; }
+  .top-num.other { color: var(--muted); }
+  .top-thumb {
+    width: 48px; height: 68px;
+    border-radius: 6px;
+    object-fit: cover;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .top-info { flex: 1; min-width: 0; }
+  .top-title { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 2px; }
+  .top-sub { font-size: 13px; color: var(--muted); }
+  .top-score {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 28px;
-    color: var(--muted);
-    min-width: 36px;
-  }
-  .rank-num.gold { color: #f59e0b; }
-  .rank-num.silver { color: #94a3b8; }
-  .rank-num.bronze { color: #b45309; }
-  .rank-info { flex: 1; }
-  .rank-title { font-size: 16px; font-weight: 500; }
-  .rank-meta { font-size: 13px; color: var(--muted); }
-  .rank-score {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    color: var(--purple-light);
+    color: var(--red);
+    flex-shrink: 0;
   }
 
-  /* AD / AFFILIATE BANNER */
-  .affiliate-banner {
-    background: linear-gradient(135deg, rgba(124,92,252,0.12), rgba(124,92,252,0.04));
-    border: 1px solid rgba(124,92,252,0.3);
+  /* AFFILIATE BANNER */
+  .banner {
+    margin: 0 5%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    background: linear-gradient(135deg, rgba(230,57,70,0.1), rgba(230,57,70,0.03));
+    border: 1px solid rgba(230,57,70,0.25);
     border-radius: 16px;
-    padding: 32px;
+    padding: 36px 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
+    gap: 24px;
     flex-wrap: wrap;
-    margin: 0 5% 60px;
-    max-width: 1100px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-bottom: 70px;
   }
-  .banner-text h3 { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 1px; margin-bottom: 6px; }
-  .banner-text p { font-size: 14px; color: var(--muted); }
-  .banner-ad-label { font-size: 11px; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+  .banner-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 8px; }
+  .banner h3 { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 2px; margin-bottom: 6px; }
+  .banner p { font-size: 15px; color: var(--muted); }
   .banner-btn {
-    background: #ff6b35;
+    background: var(--red);
     color: #fff;
-    padding: 14px 28px;
+    padding: 14px 32px;
     border-radius: 8px;
     font-size: 15px;
-    font-weight: 500;
+    font-weight: 600;
     text-decoration: none;
     white-space: nowrap;
     transition: opacity 0.2s;
+    letter-spacing: 0.5px;
   }
   .banner-btn:hover { opacity: 0.85; }
 
-  /* GOOGLE ADS PLACEHOLDER */
-  .ad-slot {
-    background: var(--surface);
-    border: 1px dashed var(--border);
-    border-radius: 8px;
-    padding: 24px;
-    text-align: center;
-    color: var(--muted);
-    font-size: 13px;
-    margin: 0 5% 40px;
-    max-width: 1100px;
-    margin-left: auto;
-    margin-right: auto;
+  /* POPUP MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(8px);
   }
-  .ad-slot span { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; color: var(--purple-light); }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    max-width: 700px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideUp 0.3s ease;
+  }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  .modal-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 10;
+    transition: background 0.2s;
+  }
+  .modal-close:hover { background: var(--red); border-color: var(--red); }
+  .modal-hero { position: relative; height: 260px; overflow: hidden; border-radius: 16px 16px 0 0; }
+  .modal-hero img { width: 100%; height: 100%; object-fit: cover; }
+  .modal-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, var(--surface) 0%, rgba(15,15,26,0.5) 60%, transparent 100%);
+  }
+  .modal-hero-content {
+    position: absolute;
+    bottom: 20px; left: 24px; right: 24px;
+  }
+  .modal-score-badge {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    padding: 4px 14px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+  .modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 40px; letter-spacing: 1px; line-height: 1; }
+  .modal-body { padding: 24px; }
+  .modal-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .modal-tag {
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--red-dim);
+    color: var(--red);
+    border: 1px solid rgba(230,57,70,0.3);
+    font-weight: 600;
+  }
+  .modal-info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .info-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+  }
+  .info-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 4px; }
+  .info-val { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; }
+  .modal-review-title { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 1px; margin-bottom: 12px; color: var(--red); }
+  .modal-review-text { font-size: 15px; color: var(--muted); line-height: 1.8; }
+  .stars-row { display: flex; gap: 4px; margin-bottom: 16px; }
+  .star { font-size: 18px; color: #f4a261; }
 
   /* FOOTER */
   footer {
     border-top: 1px solid var(--border);
-    padding: 32px 5%;
+    padding: 40px 5%;
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 12px;
-    max-width: 1100px;
-    margin: 0 auto;
+    gap: 20px;
   }
-  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; }
-  .footer-logo span { color: var(--purple); }
-  .footer-links { display: flex; gap: 20px; }
+  .footer-links { display: flex; gap: 24px; }
   .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; }
   .footer-links a:hover { color: var(--text); }
   .footer-copy { font-size: 13px; color: var(--muted); }
 
-  @media (max-width: 700px) {
-    .hero { grid-template-columns: 1fr; }
+  /* AD SLOT */
+  .ad-slot {
+    background: var(--surface);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding-left: 5%; padding-right: 5%;
+  }
+  .ad-slot span { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--red); margin-bottom: 4px; }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .search-bar { width: 130px; }
     .hero h1 { font-size: 52px; }
-    nav .nav-links { display: none; }
-    .affiliate-banner { flex-direction: column; }
+    .anime-grid { grid-template-columns: repeat(2, 1fr); }
+    .modal-info-grid { grid-template-columns: repeat(2, 1fr); }
+    .banner { padding: 24px; }
   }
 </style>
 </head>
@@ -329,148 +463,363 @@
 
 <!-- NAV -->
 <nav>
-  <div class="logo">Ani<span>Rank</span></div>
+  <a href="#" class="logo-wrap">
+    <div class="logo-icon">AR</div>
+    <div class="logo-text">Ani<span>Rank</span></div>
+  </a>
   <div class="nav-links">
     <a href="#reviews">Reviews</a>
-    <a href="#rankings">Rankings</a>
+    <a href="#top10">Top 10</a>
     <a href="#genres">Genres</a>
     <a href="#about">About</a>
   </div>
-  <a href="#reviews" class="nav-cta">Start Reading</a>
+  <div class="nav-right">
+    <input class="search-bar" type="text" placeholder="Search anime..." id="searchInput" oninput="filterCards()">
+  </div>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
-  <div>
-    <div class="hero-tag">Honest · No Spoilers · Fan-Written</div>
-    <h1>The Only Anime Reviews You <span>Need</span></h1>
-    <p>No hype. No spoilers. Real rankings and reviews by an anime fan — to help you find your next obsession faster.</p>
-    <div class="hero-btns">
-      <a href="#reviews" class="btn-primary">Read Reviews</a>
-      <a href="#rankings" class="btn-secondary">See Rankings</a>
-    </div>
-  </div>
-  <div class="featured-card">
-    <div class="featured-label">Review of the week</div>
-    <div class="featured-title">Frieren: Beyond Journey's End</div>
-    <div class="featured-genre">Fantasy · Adventure · 28 episodes</div>
-    <div class="score-display">
-      <div class="score-num">9.6</div>
-      <div class="score-max">/10</div>
-    </div>
-    <div class="featured-review">
-      A slow-burn masterpiece that makes you feel the weight of time. Frieren is unlike anything else in anime — emotional, beautiful, and quietly devastating. An instant all-time classic.
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">No Hype. No Spoilers. Real Reviews.</div>
+    <h1>The <em>Realest</em><br>Anime Reviews<br>On The Internet</h1>
+    <p>Honest rankings and deep reviews by a real fan. Find your next obsession — no cringe, just facts.</p>
+    <div class="hero-stats">
+      <div><div class="stat-num">50+</div><div class="stat-label">Reviews</div></div>
+      <div><div class="stat-num">10</div><div class="stat-label">Top Ranked</div></div>
+      <div><div class="stat-num">100%</div><div class="stat-label">Spoiler Free</div></div>
     </div>
   </div>
 </div>
 
-<!-- LATEST REVIEWS -->
-<section id="reviews">
-  <div class="section-header">
-    <div class="section-title">Latest Reviews</div>
-    <a href="#" class="section-link">View all →</a>
+<!-- FILTER TABS -->
+<div class="section" id="reviews" style="padding-bottom:0;">
+  <div class="section-head">
+    <div class="section-title-wrap">
+      <div class="section-line"></div>
+      <div class="section-title">ALL REVIEWS</div>
+    </div>
+    <a href="#" class="see-all">View all →</a>
   </div>
-  <div class="cards-grid">
-    <div class="review-card">
-      <div class="card-header">
-        <div><div class="card-title">Jujutsu Kaisen S2</div><div class="card-genre">Action · Supernatural</div></div>
-        <div class="card-score">9.1</div>
-      </div>
-      <div class="card-stars">★★★★★</div>
-      <div class="card-text">Shibuya arc hits like a truck. Best animation of the year, no contest. Pure adrenaline from start to finish.</div>
-    </div>
-    <div class="review-card">
-      <div class="card-header">
-        <div><div class="card-title">Vinland Saga S2</div><div class="card-genre">Historical · Drama</div></div>
-        <div class="card-score">9.3</div>
-      </div>
-      <div class="card-stars">★★★★★</div>
-      <div class="card-text">Slower pace but deeply rewarding. Thorfinn's character arc is one of the best written in all of anime.</div>
-    </div>
-    <div class="review-card">
-      <div class="card-header">
-        <div><div class="card-title">Demon Slayer S3</div><div class="card-genre">Action · Supernatural</div></div>
-        <div class="card-score">8.7</div>
-      </div>
-      <div class="card-stars">★★★★☆</div>
-      <div class="card-text">Ufotable's animation is insane as always. Story is thinner but the fights make it worth every minute.</div>
-    </div>
-    <div class="review-card">
-      <div class="card-header">
-        <div><div class="card-title">Blue Lock</div><div class="card-genre">Sports · Thriller</div></div>
-        <div class="card-score">8.9</div>
-      </div>
-      <div class="card-stars">★★★★☆</div>
-      <div class="card-text">Football anime with the energy of a battle shonen. Extremely addictive even if you don't like sports.</div>
-    </div>
-    <div class="review-card">
-      <div class="card-header">
-        <div><div class="card-title">Mushoku Tensei S2</div><div class="card-genre">Isekai · Fantasy</div></div>
-        <div class="card-score">8.8</div>
-      </div>
-      <div class="card-stars">★★★★☆</div>
-      <div class="card-text">Best isekai in years. Rich world-building, stunning visuals, and a protagonist that actually grows.</div>
-    </div>
-    <div class="review-card">
-      <div class="card-header">
-        <div><div class="card-title">Spy x Family S2</div><div class="card-genre">Comedy · Action</div></div>
-        <div class="card-score">8.5</div>
-      </div>
-      <div class="card-stars">★★★★☆</div>
-      <div class="card-text">Pure wholesome fun. Anya carries every scene. Perfect for when you want to smile for 24 minutes straight.</div>
-    </div>
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="filterGenre('all', this)">All</button>
+    <button class="filter-tab" onclick="filterGenre('action', this)">Action</button>
+    <button class="filter-tab" onclick="filterGenre('fantasy', this)">Fantasy</button>
+    <button class="filter-tab" onclick="filterGenre('drama', this)">Drama</button>
+    <button class="filter-tab" onclick="filterGenre('sci-fi', this)">Sci-Fi</button>
+    <button class="filter-tab" onclick="filterGenre('sports', this)">Sports</button>
   </div>
-</section>
+</div>
+
+<!-- ANIME GRID -->
+<div class="section" style="padding-top:16px;">
+  <div class="anime-grid" id="animeGrid"></div>
+</div>
 
 <!-- AFFILIATE BANNER -->
-<div class="affiliate-banner">
+<div class="banner">
   <div>
-    <div class="banner-ad-label">Sponsored · Affiliate link</div>
-    <div class="banner-text">
-      <h3>Watch All These Anime Legally on Crunchyroll</h3>
-      <p>Start free. Cancel anytime. Every anime reviewed on this site is available there.</p>
-    </div>
+    <div class="banner-label">Sponsored · Affiliate</div>
+    <h3>Watch All These Anime on Crunchyroll</h3>
+    <p>Start free. Every anime reviewed here is available legally. Cancel anytime.</p>
   </div>
-  <a href="https://www.crunchyroll.com" target="_blank" class="banner-btn">Try Crunchyroll Free →</a>
+  <a href="https://www.crunchyroll.com" target="_blank" class="banner-btn">Try Free →</a>
 </div>
 
-<!-- RANKINGS -->
-<section id="rankings">
-  <div class="section-header">
-    <div class="section-title">All-Time Top 10</div>
+<!-- TOP 10 -->
+<div class="section" id="top10">
+  <div class="section-head">
+    <div class="section-title-wrap">
+      <div class="section-line"></div>
+      <div class="section-title">TOP 10 ALL TIME</div>
+    </div>
   </div>
-  <div class="rank-table">
-    <div class="rank-row"><div class="rank-num gold">1</div><div class="rank-info"><div class="rank-title">Fullmetal Alchemist: Brotherhood</div><div class="rank-meta">Adventure · 64 eps · 2009</div></div><div class="rank-score">9.8</div></div>
-    <div class="rank-row"><div class="rank-num silver">2</div><div class="rank-info"><div class="rank-title">Attack on Titan (Complete)</div><div class="rank-meta">Action · 87 eps · 2013–2023</div></div><div class="rank-score">9.7</div></div>
-    <div class="rank-row"><div class="rank-num bronze">3</div><div class="rank-info"><div class="rank-title">Hunter x Hunter (2011)</div><div class="rank-meta">Adventure · 148 eps · 2011</div></div><div class="rank-score">9.6</div></div>
-    <div class="rank-row"><div class="rank-num">4</div><div class="rank-info"><div class="rank-title">Frieren: Beyond Journey's End</div><div class="rank-meta">Fantasy · 28 eps · 2023</div></div><div class="rank-score">9.6</div></div>
-    <div class="rank-row"><div class="rank-num">5</div><div class="rank-info"><div class="rank-title">Steins;Gate</div><div class="rank-meta">Sci-fi · 24 eps · 2011</div></div><div class="rank-score">9.5</div></div>
-    <div class="rank-row"><div class="rank-num">6</div><div class="rank-info"><div class="rank-title">Vinland Saga</div><div class="rank-meta">Historical · 48 eps · 2019</div></div><div class="rank-score">9.4</div></div>
-    <div class="rank-row"><div class="rank-num">7</div><div class="rank-info"><div class="rank-title">Jujutsu Kaisen</div><div class="rank-meta">Action · 47 eps · 2020</div></div><div class="rank-score">9.2</div></div>
-    <div class="rank-row"><div class="rank-num">8</div><div class="rank-info"><div class="rank-title">Mob Psycho 100</div><div class="rank-meta">Action · 37 eps · 2016</div></div><div class="rank-score">9.2</div></div>
-    <div class="rank-row"><div class="rank-num">9</div><div class="rank-info"><div class="rank-title">Demon Slayer</div><div class="rank-meta">Action · 44 eps · 2019</div></div><div class="rank-score">9.0</div></div>
-    <div class="rank-row"><div class="rank-num">10</div><div class="rank-info"><div class="rank-title">One Punch Man S1</div><div class="rank-meta">Action · 12 eps · 2015</div></div><div class="rank-score">8.9</div></div>
-  </div>
-</section>
+  <div class="top-list" id="topList"></div>
+</div>
 
-<!-- GOOGLE ADS SLOT -->
+<!-- AD SLOT -->
 <div class="ad-slot">
-  <span>Advertisement</span>
-  <!-- Paste your Google AdSense code here after approval -->
-  Google AdSense ad will appear here — sign up free at google.com/adsense
+  <span>Advertisement — Google AdSense</span>
+  Paste your Google AdSense code here after approval at google.com/adsense
 </div>
 
 <!-- FOOTER -->
 <footer id="about">
-  <div class="footer-logo">Ani<span>Rank</span></div>
-  <div class="footer-links">
-    <a href="#">About</a>
-    <a href="#">Contact</a>
-    <a href="#">Privacy Policy</a>
-    <a href="#">Submit a Review</a>
+  <div class="footer-inner">
+    <a href="#" class="logo-wrap">
+      <div class="logo-icon">AR</div>
+      <div class="logo-text">Ani<span>Rank</span></div>
+    </a>
+    <div class="footer-links">
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <a href="#">Privacy</a>
+      <a href="#">Submit Review</a>
+    </div>
+    <div class="footer-copy">© 2025 AniRank. All rights reserved.</div>
   </div>
-  <div class="footer-copy">© 2025 AniRank. All rights reserved.</div>
 </footer>
 
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <div class="modal-hero">
+      <img id="modal-img" src="" alt="">
+      <div class="modal-hero-overlay"></div>
+      <div class="modal-hero-content">
+        <div class="modal-score-badge" id="modal-score"></div>
+        <div class="modal-title" id="modal-title"></div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tags" id="modal-tags"></div>
+      <div class="modal-info-grid" id="modal-info"></div>
+      <div class="stars-row" id="modal-stars"></div>
+      <div class="modal-review-title">THE VERDICT</div>
+      <div class="modal-review-text" id="modal-review"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const anime = [
+  {
+    title: "Fullmetal Alchemist: Brotherhood",
+    score: 9.8,
+    year: 2009,
+    episodes: 64,
+    studio: "Bones",
+    genres: ["action", "fantasy", "drama"],
+    tags: ["Action", "Fantasy", "Adventure"],
+    img: "https://cdn.myanimelist.net/images/anime/1223/96541.jpg",
+    stars: 5,
+    review: "The undisputed GOAT. Brotherhood is the complete package — jaw-dropping action, deep philosophy, perfect pacing, and one of the most emotionally satisfying endings in anime history. The story of the Elric brothers is something you'll never forget. Every episode earns its place. This is the benchmark everything else is measured against."
+  },
+  {
+    title: "Attack on Titan",
+    score: 9.7,
+    year: 2013,
+    episodes: 87,
+    studio: "MAPPA / WIT",
+    genres: ["action", "drama", "fantasy"],
+    tags: ["Action", "Dark", "Drama"],
+    img: "https://cdn.myanimelist.net/images/anime/10/47347.jpg",
+    stars: 5,
+    review: "Started as a survival horror about giant monsters. Ended as one of the most complex political thrillers ever made. The final arc is divisive, but there's no denying AoT changed anime forever. Eren's journey from screaming kid to walking genocide is unlike anything else. Brutal, brilliant, and unforgettable."
+  },
+  {
+    title: "Frieren: Beyond Journey's End",
+    score: 9.6,
+    year: 2023,
+    episodes: 28,
+    studio: "Madhouse",
+    genres: ["fantasy", "drama"],
+    tags: ["Fantasy", "Slow-burn", "Emotional"],
+    img: "https://cdn.myanimelist.net/images/anime/1015/138006.jpg",
+    stars: 5,
+    review: "A masterpiece about time, loss, and what it means to connect with others. Frieren is an elf who outlives her companions and struggles to understand human emotion. Quiet, deeply moving, and beautifully animated. This one hits different. Give it 3 episodes and it will own you."
+  },
+  {
+    title: "Hunter x Hunter (2011)",
+    score: 9.6,
+    year: 2011,
+    episodes: 148,
+    studio: "Madhouse",
+    genres: ["action", "fantasy"],
+    tags: ["Action", "Adventure", "Dark"],
+    img: "https://cdn.myanimelist.net/images/anime/1337/99013.jpg",
+    stars: 5,
+    review: "Looks like a kid's adventure show. Then the Chimera Ant arc happens and it becomes one of the darkest, most intellectually challenging things in anime. Gon and Killua's friendship is one of the best in fiction. The power system (Nen) is the most creative ever designed. An absolute must-watch."
+  },
+  {
+    title: "Steins;Gate",
+    score: 9.5,
+    year: 2011,
+    episodes: 24,
+    studio: "White Fox",
+    genres: ["sci-fi", "drama"],
+    tags: ["Sci-Fi", "Thriller", "Time Travel"],
+    img: "https://cdn.myanimelist.net/images/anime/5/73199.jpg",
+    stars: 5,
+    review: "The greatest time travel story ever told in any medium. Starts slow, feels like nothing's happening — then episode 12 hits and everything changes. Okabe Rintaro is one of anime's best protagonists. The emotional gut-punch of the second half is legendary. Watch it blind, trust the process."
+  },
+  {
+    title: "Vinland Saga",
+    score: 9.4,
+    year: 2019,
+    episodes: 48,
+    studio: "MAPPA / WIT",
+    genres: ["action", "drama"],
+    tags: ["Historical", "Drama", "Action"],
+    img: "https://cdn.myanimelist.net/images/anime/1500/103005.jpg",
+    stars: 5,
+    review: "A Viking revenge story that evolves into a profound meditation on war, peace, and what it means to be a true warrior. Season 1 is hype. Season 2 is art. Thorfinn's character arc from rage-fueled killer to pacifist is the most realistic growth in anime. Slow but absolutely worth it."
+  },
+  {
+    title: "Jujutsu Kaisen",
+    score: 9.2,
+    year: 2020,
+    episodes: 47,
+    studio: "MAPPA",
+    genres: ["action", "fantasy"],
+    tags: ["Action", "Dark", "Supernatural"],
+    img: "https://cdn.myanimelist.net/images/anime/1171/109222.jpg",
+    stars: 5,
+    review: "The most hype action anime of the 2020s. MAPPA goes absolutely insane with the animation — the Shibuya arc is a visual spectacle that broke the internet. The cursed energy system is slick, the characters are likeable, and the stakes feel real. Gojo alone is worth watching the whole thing for."
+  },
+  {
+    title: "Mob Psycho 100",
+    score: 9.2,
+    year: 2016,
+    episodes: 37,
+    studio: "Bones",
+    genres: ["action", "drama"],
+    tags: ["Action", "Comedy", "Emotional"],
+    img: "https://cdn.myanimelist.net/images/anime/8/80356.jpg",
+    stars: 5,
+    review: "The most underrated anime on this list. Mob is a kid with godlike psychic powers who just wants to be normal. The animation is insane — Season 2 episode 5 goes down as one of the best animated sequences ever. But it's the heart under the action that makes it special. Don't sleep on this."
+  },
+  {
+    title: "Blue Lock",
+    score: 8.9,
+    year: 2022,
+    episodes: 24,
+    studio: "8bit",
+    genres: ["sports", "action"],
+    tags: ["Sports", "Thriller", "Hype"],
+    img: "https://cdn.myanimelist.net/images/anime/1476/131324.jpg",
+    stars: 4,
+    review: "Football anime with the energy of a shonen battle series. Japan locks 300 strikers in a facility and eliminates them one by one to find the world's best. Absolutely addictive. Isagi's growth from average to elite is satisfying to watch. Even if you hate football, this will hook you. Season 2 is even better."
+  },
+  {
+    title: "Demon Slayer",
+    score: 8.9,
+    year: 2019,
+    episodes: 44,
+    studio: "ufotable",
+    genres: ["action", "fantasy"],
+    tags: ["Action", "Beautiful", "Emotional"],
+    img: "https://cdn.myanimelist.net/images/anime/1286/99889.jpg",
+    stars: 4,
+    review: "The most visually stunning anime ever made — full stop. Ufotable's animation is from another planet. The Rengoku movie had grown men crying in cinemas worldwide. Story is straightforward but the fights and emotion more than make up for it. Tanjiro is one of the most genuinely good-hearted protagonists in anime."
+  },
+  {
+    title: "One Punch Man S1",
+    score: 8.9,
+    year: 2015,
+    episodes: 12,
+    studio: "Madhouse",
+    genres: ["action", "fantasy"],
+    tags: ["Action", "Comedy", "Satire"],
+    img: "https://cdn.myanimelist.net/images/anime/12/76049.jpg",
+    stars: 4,
+    review: "The ultimate deconstruction of superhero anime. Saitama is so powerful he can defeat anyone in one punch — and that's his curse. Season 1 is a perfect 12 episodes. Madhouse animated it like they were trying to destroy their own studio. Genius premise, incredible execution. Watch S1. Pretend S2 doesn't exist."
+  },
+  {
+    title: "Mushoku Tensei",
+    score: 8.8,
+    year: 2021,
+    episodes: 23,
+    studio: "Studio Bind",
+    genres: ["fantasy"],
+    tags: ["Isekai", "Fantasy", "Epic"],
+    img: "https://cdn.myanimelist.net/images/anime/1530/117776.jpg",
+    stars: 4,
+    review: "The isekai that reset the bar for the entire genre. A 34-year-old loser gets reincarnated and actually grows as a person across multiple seasons. Stunning world-building, beautiful animation, and a protagonist who makes real mistakes and learns from them. The gold standard of isekai done right."
+  }
+];
+
+let activeGenre = 'all';
+
+function renderGrid(list) {
+  const grid = document.getElementById('animeGrid');
+  grid.innerHTML = list.map((a, i) => `
+    <div class="anime-card" onclick="openModal(${anime.indexOf(a)})" data-genres="${a.genres.join(',')}">
+      <div class="card-img-wrap">
+        <img src="${a.img}" alt="${a.title}" loading="lazy">
+        <div class="card-overlay"></div>
+        <div class="card-score">${a.score}</div>
+        <div class="card-rank">#${i+1}</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">${a.title}</div>
+        <div class="card-meta">${a.year} · ${a.episodes} eps · ${a.studio}</div>
+        <div class="card-tags">${a.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderTop() {
+  const top = [...anime].sort((a,b) => b.score - a.score).slice(0,10);
+  document.getElementById('topList').innerHTML = top.map((a, i) => {
+    const numClass = i===0?'n1':i===1?'n2':i===2?'n3':'other';
+    return `
+      <div class="top-row" onclick="openModal(${anime.indexOf(a)})">
+        <div class="top-num ${numClass}">${i+1}</div>
+        <img class="top-thumb" src="${a.img}" alt="${a.title}">
+        <div class="top-info">
+          <div class="top-title">${a.title}</div>
+          <div class="top-sub">${a.genres.map(g=>g.charAt(0).toUpperCase()+g.slice(1)).join(' · ')} · ${a.episodes} eps</div>
+        </div>
+        <div class="top-score">${a.score}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function filterGenre(genre, btn) {
+  activeGenre = genre;
+  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function filterCards() { applyFilters(); }
+
+function applyFilters() {
+  const query = document.getElementById('searchInput').value.toLowerCase();
+  let filtered = anime.filter(a => {
+    const matchGenre = activeGenre === 'all' || a.genres.includes(activeGenre);
+    const matchSearch = a.title.toLowerCase().includes(query);
+    return matchGenre && matchSearch;
+  });
+  renderGrid(filtered);
+}
+
+function openModal(idx) {
+  const a = anime[idx];
+  document.getElementById('modal-img').src = a.img;
+  document.getElementById('modal-score').textContent = a.score + ' / 10';
+  document.getElementById('modal-title').textContent = a.title;
+  document.getElementById('modal-tags').innerHTML = a.tags.map(t => `<span class="modal-tag">${t}</span>`).join('');
+  document.getElementById('modal-info').innerHTML = `
+    <div class="info-box"><div class="info-label">Year</div><div class="info-val">${a.year}</div></div>
+    <div class="info-box"><div class="info-label">Episodes</div><div class="info-val">${a.episodes}</div></div>
+    <div class="info-box"><div class="info-label">Studio</div><div class="info-val">${a.studio}</div></div>
+  `;
+  document.getElementById('modal-stars').innerHTML = Array(5).fill(0).map((_,i) => `<span class="star">${i < a.stars ? '★' : '☆'}</span>`).join('');
+  document.getElementById('modal-review').textContent = a.review;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
+}
+
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+
+renderGrid(anime);
+renderTop();
+</script>
 </body>
 </html>
